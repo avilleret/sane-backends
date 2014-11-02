@@ -3016,22 +3016,23 @@ gl124_led_calibration (Genesys_Device * dev)
 	  snprintf (fn, 20, "led_%02d.pnm", turn);
 	  sanei_genesys_write_pnm_file (fn, line, depth, channels, num_pixels, 1);
 	}
-
+DBG (DBG_info, "gl124_led_calibration: channels %d, num_pixels %d\n", channels, num_pixels);
       /* compute average */
       for (j = 0; j < channels; j++)
 	{
 	  avg[j] = 0;
 	  for (i = 0; i < num_pixels; i++)
 	    {
-	      if (dev->model->is_cis)
+	      if (dev->model->is_cis) {
 		val =
 		  line[i * 2 + j * 2 * num_pixels + 1] * 256 +
 		  line[i * 2 + j * 2 * num_pixels];
-	      else
+	      } else {
 		val =
 		  line[i * 2 * channels + 2 * j + 1] * 256 +
 		  line[i * 2 * channels + 2 * j];
-	      avg[j] += val;
+    }
+    avg[j] += val;
 	    }
 
 	  avg[j] /= num_pixels;
